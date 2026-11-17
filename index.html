@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinMath — Simulator Matematika Keuangan</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Modern dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Library Chart.js untuk Grafik -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-brand">
+            <span class="logo-icon">∑</span>
+            <div>
+                <h1>FinMath Simulator</h1>
+                <p>Pemodelan Barisan Geometri & Bunga Majemuk</p>
+            </div>
+        </div>
+        <button class="btn-outline" onclick="toggleModal()">📐 Rumus Matematika</button>
+    </header>
+
+    <main class="dashboard">
+        <!-- Panel Kiri: Input Parameter -->
+        <section class="card input-section">
+            <h2>Parameter Perencanaan</h2>
+            <p class="desc">Masukkan target dan rencana finansial Anda di bawah ini.</p>
+
+            <div class="form-group">
+                <label for="targetDana">Target Dana Impian (Rp)</label>
+                <input type="number" id="targetDana" value="100000000" step="1000000">
+            </div>
+
+            <div class="form-group">
+                <label for="tabunganAwal">Tabungan Awal / Saldo Saat Ini (Rp)</label>
+                <input type="number" id="tabunganAwal" value="5000000" step="500000">
+            </div>
+
+            <div class="form-group">
+                <label for="setoranRutin">Setoran Rutin per Bulan (Rp)</label>
+                <input type="number" id="setoranRutin" value="1500000" step="100000">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="bungaTahunan">Bunga / Imbal Hasil (% / thn)</label>
+                    <input type="number" id="bungaTahunan" value="6" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label for="jangkaWaktu">Jangka Waktu (Tahun)</label>
+                    <input type="number" id="jangkaWaktu" value="4" min="1" max="50">
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="hitungSimulasi()">Hitung Proyeksi Keuangan</button>
+        </section>
+
+        <!-- Panel Kanan: Hasil, Grafik & Tabel -->
+        <section class="output-section">
+            <!-- Kartu Ringkasan Angka -->
+            <div class="summary-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Total Akhir Tabungan</span>
+                    <h3 id="resTotalUang">Rp 0</h3>
+                </div>
+                <div class="stat-card highlight">
+                    <span class="stat-label">Keuntungan Bunga Majemuk</span>
+                    <h3 id="resTotalBunga">Rp 0</h3>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Total Modal Disetor</span>
+                    <h3 id="resTotalModal">Rp 0</h3>
+                </div>
+            </div>
+
+            <!-- Banner Status Target -->
+            <div id="statusBanner" class="status-banner"></div>
+
+            <!-- Kartu Grafik Pertumbuhan -->
+            <div class="card chart-card">
+                <h3>Grafik Pertumbuhan Akumulasi Dana</h3>
+                <div class="canvas-wrapper">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Kartu Tabel Proyeksi Tahunan -->
+            <div class="card table-card">
+                <h3>Rincian Proyeksi per Tahun</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tahun Ke-</th>
+                                <th>Total Modal Disetor</th>
+                                <th>Akumulasi Bunga</th>
+                                <th>Saldo Akhir Tahun</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Diisi otomatis oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Penjelasan Rumus Matematika (Nilai Plus untuk Dosen!) -->
+    <div id="mathModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal()">×</span>
+            <h2>Landasan Matematis Aplikasi</h2>
+            <p>Aplikasi ini menggunakan model <b>Barisan dan Deret Geometri</b> untuk menghitung pertumbuhan nilai uang masa depan (<i>Future Value</i>) dengan sistem bunga majemuk bulanan:</p>
+            <div class="formula-box">
+                <p><b>1. Bunga Majemuk Saldo Awal:</b><br>FV₀ = PV × (1 + i)ⁿ</p>
+                <p><b>2. Nilai Masa Depan Anuitas (Setoran Rutin):</b><br>FV_rutin = PMT × [ ((1 + i)ⁿ - 1) / i ] × (1 + i)</p>
+                <p><b>3. Total Saldo Akhir:</b><br>FV_total = FV₀ + FV_rutin</p>
+            </div>
+            <p class="note"><i>Keterangan: PV = Modal Awal, PMT = Setoran Bulanan, i = Suku bunga bulanan (r/12), n = Total bulan (tahun × 12).</i></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
